@@ -16,7 +16,7 @@ from std_msgs.msg import String
 class SerialTalkerNode:
 	def __init__(self):
 		self.node_name = rospy.get_name()
-		self.devname = '/dev/ttyACM1'
+		self.devname = '/dev/ttyACM2'
 		self.baud = 115200
 		self.rate = rospy.Rate(10)
 		self.resume()

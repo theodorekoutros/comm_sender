@@ -9,7 +9,7 @@ from comm_sender.msg import Comm
 from gantry_control.msg import *
 import act2serial
 
-devname='/dev/ttyACM1'
+devname='/dev/ttyACM2'
 
 class CommSenderNode:
     def __init__(self):
@@ -25,7 +25,7 @@ class CommSenderNode:
         self.sub_actuation = rospy.Subscriber("/gantry/set_actuation", actuation, self.cbActuation, queue_size=10)
         self.rate = rospy.Rate(50) # 30hz 
 
-    def sendSer(self)
+    def sendSer(self):
         if self.sendStr != '':
             rospy.loginfo("Sending.[%s] to serial. " %(self.sendStr))
             self.s.write(self.sendStr+'\n')

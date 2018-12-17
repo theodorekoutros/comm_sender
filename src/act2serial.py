@@ -6,8 +6,8 @@ def convert(in_array):
 	out_str += ';0'
 
 	for element in in_array:
-		out_str += str(element);
 		out_str += ';'
+		out_str += str(element);
 
 	out_str += ';0'
 	out_str += ';0'
