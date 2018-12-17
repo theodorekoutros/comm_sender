@@ -1,0 +1,88 @@
+#!/usr/bin/env python
+
+
+#Adapted from:
+#https://answers.ros.org/question/159276/read-data-from-serial-port-and-publish-over-a-topic/
+
+
+import roslib;  # roslib.load_manifest('numpy_tutorials') #not sure why I need this
+import rosbag
+import rospy
+import serial
+from comm_sender.msg import serial_data
+from std_msgs.msg import String
+#import serial_coms
+
+class SerialTalkerNode:
+	def __init__(self):
+		self.node_name = rospy.get_name()
+		self.devname = '/dev/ttyACM0'
+		self.baud = 115200
+		self.s = None
+		self.rate = rospy.Rate(10)
+		self.ser = self.resume()
+		self.initialize()
+		self.pub = rospy.Publisher('/object_return/location', serial_data, queue_size=10)
+		self.pubRaw = rospy.Publisher('/object_return/raw', String, queue_size=10)
+
+	
+	def resume(self):
+		"""Start serial communication
+		INPUTS:
+			devname - the short name of the device you want to use
+			baud    - baud rate
+		OUTPUTS:
+			s - the serial object created
+		"""	
+		self.s = serial.Serial(self.devname, self.baud)
+		if not self.s.isOpen():
+			self.s.open()
+			
+		return self.s
+
+	def initialize(self):
+		self.s.flushInput()	
+
+	def talker(self):
+
+		while not rospy.is_shutdown():
+			if self.ser.in_waiting: # NO ATTRIBUTE IN WAITING !!!!
+				try:
+					data= ser.readline() # Read data from serial port
+					if data.startswith('_'):
+						msg=String()
+						msg.data=data
+						rospy.loginfo(msg)
+						self.pubRaw.publish(msg)
+
+					else:
+						try:	
+							dataVec=data[0:-1].split("\t")
+							msg=serial_data()
+							msg.milliseconds=long(dataVec[0])
+							msg.rate=long(dataVec[1])
+							msg.data=map(float,dataVec[2:])
+							
+							rospy.loginfo(msg)
+							self.pub.publish(msg)
+						except ValueError:
+							rospy.logerr('OBJECT RETURN: data was garbled...ignoring it')
+
+				except serial.serialutil.SerialException:
+					rospy.logerr('OBJECT RETURN: Serial read error...ignoring it')
+					
+			self.rate.sleep()
+
+
+if __name__ == '__main__':
+	rospy.init_node('serial_talker_node',anonymous=False)
+	node = SerialTalkerNode()
+	try:
+		if rospy.has_param('object_return'):
+			params=rospy.get_param('object_return')
+			baud=params['baudrate']
+			devname=params['devname']
+		
+		node.talker()
+	except rospy.ROSInterruptException:
+		pass

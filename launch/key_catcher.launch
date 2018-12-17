@@ -1,0 +1,15 @@
+<launch>
+    <arg name="pkg_name" value="comm_sender"/>
+    <arg name="node_name" default="key_catcher_node"/>
+
+  
+    <node  name="$(arg node_name)" pkg="$(arg pkg_name)" type="$(arg node_name).py" output="screen"> 
+    </node> 
+
+    
+    <!-- Publications -->
+
+    <!-- Subscriptions -->
+
+    
+</launch>

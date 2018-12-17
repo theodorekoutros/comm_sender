@@ -1,0 +1,7 @@
+<launch>
+  <group name="serial_comunicator">
+    <include file="$(find comm_sender)/launch/comm_sender.launch" />
+    <include file="$(find comm_sender)/launch/key_catcher.launch" />
+
+  </group>
+</launch>
