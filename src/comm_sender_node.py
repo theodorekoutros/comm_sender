@@ -7,6 +7,8 @@ import sys, select, termios, tty
 from std_msgs.msg import String
 from comm_sender.msg import Comm
 
+devname='/dev/ttyACM1'
+
 class CommSenderNode:
     def __init__(self):
         self.node_name = rospy.get_name()
@@ -15,7 +17,7 @@ class CommSenderNode:
         
         self.key = None
 
-        self.s = serial.Serial('/dev/ttyACM0')
+        self.s = serial.Serial(devname)
  
         self.sub_key = rospy.Subscriber("/key", Comm, self.cbKey, queue_size=1)
         self.rate = rospy.Rate(10) # 30hz 

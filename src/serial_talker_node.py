@@ -16,11 +16,10 @@ from std_msgs.msg import String
 class SerialTalkerNode:
 	def __init__(self):
 		self.node_name = rospy.get_name()
-		self.devname = '/dev/ttyACM0'
+		self.devname = '/dev/ttyACM1'
 		self.baud = 115200
-		self.s = None
 		self.rate = rospy.Rate(10)
-		self.ser = self.resume()
+		self.resume()
 		self.initialize()
 		self.pub = rospy.Publisher('/object_return/location', serial_data, queue_size=10)
 		self.pubRaw = rospy.Publisher('/object_return/raw', String, queue_size=10)
@@ -34,21 +33,20 @@ class SerialTalkerNode:
 		OUTPUTS:
 			s - the serial object created
 		"""	
-		self.s = serial.Serial(self.devname, self.baud)
-		if not self.s.isOpen():
-			self.s.open()
+		self.ser = serial.Serial(self.devname, self.baud)
+		if not self.ser.isOpen():
+			self.ser.open()
 			
-		return self.s
 
 	def initialize(self):
-		self.s.flushInput()	
+		self.ser.flushInput()	
 
 	def talker(self):
 
 		while not rospy.is_shutdown():
 			if self.ser.in_waiting: # NO ATTRIBUTE IN WAITING !!!!
 				try:
-					data= ser.readline() # Read data from serial port
+					data= self.ser.readline() # Read data from serial port
 					if data.startswith('_'):
 						msg=String()
 						msg.data=data
@@ -61,7 +59,7 @@ class SerialTalkerNode:
 							msg=serial_data()
 							msg.milliseconds=long(dataVec[0])
 							msg.rate=long(dataVec[1])
-							msg.data=map(float,dataVec[2:])
+							msg.data=map(float,dataVec[2:-1])
 							
 							rospy.loginfo(msg)
 							self.pub.publish(msg)
