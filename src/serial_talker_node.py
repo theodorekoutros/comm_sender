@@ -16,14 +16,21 @@ from std_msgs.msg import String
 class SerialTalkerNode:
 	def __init__(self):
 		self.node_name = rospy.get_name()
+		rospy.loginfo("[%s] Initialzing." %(self.node_name))  
+
+		#Getting parameters from launch file
 		self.devname = rospy.get_param("/devname")
-		self.baud = 115200
-		self.rate = rospy.Rate(10)
+		self.baud = rospy.get_param("/baudrate")		
+
+		#Initilizing serial communication
 		self.resume()
 		self.initialize()
+
+		#Publishers and Subscribers
 		self.pub = rospy.Publisher('/object_return/location', serial_data, queue_size=10)
 		self.pubRaw = rospy.Publisher('/object_return/raw', String, queue_size=10)
 
+		self.rate = rospy.Rate(10)
 	
 	def resume(self):
 		"""Start serial communication
@@ -44,7 +51,7 @@ class SerialTalkerNode:
 	def talker(self):
 
 		while not rospy.is_shutdown():
-			if self.ser.in_waiting: # NO ATTRIBUTE IN WAITING !!!!
+			if self.ser.in_waiting: 
 				try:
 					data= self.ser.readline() # Read data from serial port
 					if data.startswith('_'):

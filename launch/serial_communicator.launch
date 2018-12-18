@@ -1,7 +1,8 @@
 <launch>
 
 	<!-- set a /devname parameter -->
-  	<param name="devname" value="/dev/ttyACM2" />
+  	<param name="devname" value="/dev/ttyACM1" />
+  	<param name="baudrate" value="115200" />
 
   	<group name="serial_comunicator">
     	<include file="$(find comm_sender)/launch/comm_sender.launch" />

@@ -3,7 +3,8 @@
     <arg name="node_name" default="serial_talker_node"/>
 
     <!-- set a /devname parameter -->
-  	<param name="devname" value="/dev/ttyACM2" />
+  	<param name="devname" value="/dev/ttyACM1" />
+  	<param name="baudrate" value="115200" />
 
   
     <node  name="$(arg node_name)" pkg="$(arg pkg_name)" type="$(arg node_name).py" output="screen"> 

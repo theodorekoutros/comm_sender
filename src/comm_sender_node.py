@@ -9,22 +9,26 @@ from comm_sender.msg import Comm
 from gantry_control.msg import *
 import act2serial
 
-devname='/dev/ttyACM2'
-devname = rospy.get_param("/devname")
-baud = rospy.get_param("/baudrate")
+
+
 
 class CommSenderNode:
     def __init__(self):
         self.node_name = rospy.get_name()
+        rospy.loginfo("[%s] Initialzing." %(self.node_name))      
 
-        rospy.loginfo("[%s] Initialzing." %(self.node_name))     
-        
+        #Getting parameters from launch file
+        self.devname = rospy.get_param("/devname")
+        self.baud = rospy.get_param("/baudrate")
         self.sendStr = None
 
-        self.s = serial.Serial(devname,baud)
- 
+        #Initilizing serial communication
+        self.s = serial.Serial(self.devname,self.baud)
+
+        #Publishers and Subscribers 
         self.sub_key = rospy.Subscriber("/key", Comm, self.cbKey, queue_size=10)
         self.sub_actuation = rospy.Subscriber("/gantry/set_actuation", actuation, self.cbActuation, queue_size=10)
+        
         self.rate = rospy.Rate(50) # 30hz 
 
     def sendSer(self):
