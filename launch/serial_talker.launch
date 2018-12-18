@@ -2,6 +2,9 @@
     <arg name="pkg_name" value="comm_sender"/>
     <arg name="node_name" default="serial_talker_node"/>
 
+    <!-- set a /devname parameter -->
+  	<param name="devname" value="/dev/ttyACM2" />
+
   
     <node  name="$(arg node_name)" pkg="$(arg pkg_name)" type="$(arg node_name).py" output="screen"> 
     </node> 

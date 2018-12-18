@@ -10,6 +10,8 @@ from gantry_control.msg import *
 import act2serial
 
 devname='/dev/ttyACM2'
+devname = rospy.get_param("/devname")
+baud = rospy.get_param("/baudrate")
 
 class CommSenderNode:
     def __init__(self):
@@ -19,7 +21,7 @@ class CommSenderNode:
         
         self.sendStr = None
 
-        self.s = serial.Serial(devname)
+        self.s = serial.Serial(devname,baud)
  
         self.sub_key = rospy.Subscriber("/key", Comm, self.cbKey, queue_size=10)
         self.sub_actuation = rospy.Subscriber("/gantry/set_actuation", actuation, self.cbActuation, queue_size=10)

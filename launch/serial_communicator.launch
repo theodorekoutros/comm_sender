@@ -1,7 +1,10 @@
 <launch>
-  <group name="serial_comunicator">
-    <include file="$(find comm_sender)/launch/comm_sender.launch" />
-    <include file="$(find comm_sender)/launch/key_catcher.launch" />
 
-  </group>
+	<!-- set a /devname parameter -->
+  	<param name="devname" value="/dev/ttyACM2" />
+
+  	<group name="serial_comunicator">
+    	<include file="$(find comm_sender)/launch/comm_sender.launch" />
+    	<include file="$(find comm_sender)/launch/key_catcher.launch" />
+  	</group>
 </launch>
