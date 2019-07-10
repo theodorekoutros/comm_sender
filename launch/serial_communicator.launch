@@ -1,7 +1,7 @@
 <launch>
 
-	<!-- set a /devname parameter -->
-  	<param name="devname" value="/dev/ttyACM1" />
+	<!-- set a global /devname parameter -->
+  	<param name="devname" value="/dev/ttyACM0" />
   	<param name="baudrate" value="115200" />
 
   	<group name="serial_comunicator">

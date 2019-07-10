@@ -27,8 +27,8 @@ class SerialTalkerNode:
 		self.initialize()
 
 		#Publishers and Subscribers
-		self.pub = rospy.Publisher('/object_return/location', serial_data, queue_size=10)
-		self.pubRaw = rospy.Publisher('/object_return/raw', String, queue_size=10)
+		self.pub = rospy.Publisher('/pressure_control/location', serial_data, queue_size=10)
+		self.pubRaw = rospy.Publisher('/pressure_control/raw', String, queue_size=10)
 
 		self.rate = rospy.Rate(10)
 	
@@ -71,10 +71,10 @@ class SerialTalkerNode:
 							rospy.loginfo(msg)
 							self.pub.publish(msg)
 						except ValueError:
-							rospy.logerr('OBJECT RETURN: data was garbled...ignoring it')
+							rospy.logerr('PRESSURE CONTROL: data was garbled...ignoring it')
 
 				except serial.serialutil.SerialException:
-					rospy.logerr('OBJECT RETURN: Serial read error...ignoring it')
+					rospy.logerr('PRESSURE CONTROL: Serial read error...ignoring it')
 					
 			self.rate.sleep()
 

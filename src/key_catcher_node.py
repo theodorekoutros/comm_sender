@@ -69,7 +69,7 @@ class KeyCatcherNode:
                 time.sleep(1)
 
             elif (key == '\x30'): #0 
-                message ='SET;0'
+                message ='SET;0;-10;-10;-10;0;0'
                 rospy.loginfo("[%s] Key Input." %(key))
                 time.sleep(1)
 

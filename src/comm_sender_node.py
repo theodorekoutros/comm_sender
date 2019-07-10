@@ -29,7 +29,12 @@ class CommSenderNode:
         self.sub_key = rospy.Subscriber("/key", Comm, self.cbKey, queue_size=10)
         self.sub_actuation = rospy.Subscriber("/gantry/set_actuation", actuation, self.cbActuation, queue_size=10)
         
-        self.rate = rospy.Rate(50) # 30hz 
+        self.rate = rospy.Rate(50) # 30hz
+
+        self.sendStr="LOAD"
+        self.sendSer()
+        self.sendStr="MODE;1"
+        self.sendSer()
 
     def sendSer(self):
         if self.sendStr != '':

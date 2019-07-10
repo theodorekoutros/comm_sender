@@ -3,7 +3,7 @@
     <arg name="node_name" default="serial_talker_node"/>
 
     <!-- set a /devname parameter -->
-  	<param name="devname" value="/dev/ttyACM1" />
+  	<param name="devname" value="/dev/ttyACM0" />
   	<param name="baudrate" value="115200" />
 
   
